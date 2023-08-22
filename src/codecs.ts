@@ -1,39 +1,52 @@
+import { DateFromUnixTime } from "io-ts-types";
 import * as t from "io-ts";
 
 export const Cloud = t.type({
-  cover: t.string,
+  cover: t.keyof({ SKC: null, SCT: null, FEW: null, BKN: null, OVC: null }),
   base: t.union([t.number, t.null]),
 });
 export type Cloud = t.TypeOf<typeof Cloud>;
 
-export const Metar = t.readonly(
-  t.type({
-    icaoId: t.string,
-    name: t.string,
-    clouds: t.array(Cloud),
-    wdir: t.union([t.number, t.string]),
-    wspd: t.union([t.number, t.string]),
-  })
+export const Wind = t.type({
+  wdir: t.union([t.number, t.literal("VRB"), t.null]),
+  wspd: t.union([t.number, t.null]),
+});
+
+export const StationData = t.type({ icaoId: t.string, name: t.string });
+
+export const Observation = t.readonly(
+  t.intersection([
+    t.type({
+      clouds: t.array(Cloud),
+    }),
+    Wind,
+    StationData,
+  ])
 );
-export type Metar = t.TypeOf<typeof Metar>;
 
-export const Taf = t.readonly(
-  t.type({
-    icaoId: t.string,
-    name: t.string,
-    fcsts: t.array(
-      t.type({
-        clouds: t.array(Cloud),
-        wdir: t.union([t.number, t.string]),
-        wspd: t.union([t.number, t.string]),
-      })
-    ),
-  })
+export type Observation = t.TypeOf<typeof Observation>;
+
+export const Forecast = t.readonly(
+  t.intersection([
+    t.type({
+      fcsts: t.readonlyArray(
+        t.intersection([
+          t.type({
+            clouds: t.array(Cloud),
+            timeFrom: DateFromUnixTime,
+            timeTo: DateFromUnixTime,
+          }),
+          Wind,
+        ])
+      ),
+    }),
+    StationData,
+  ])
 );
-export type Taf = t.TypeOf<typeof Taf>;
+export type Forecast = t.TypeOf<typeof Forecast>;
 
-export const TafArray = t.array(Taf);
-export type TafArray = t.TypeOf<typeof TafArray>;
+export const ForecastArray = t.readonlyArray(Forecast);
+export type ForecastArray = t.TypeOf<typeof ForecastArray>;
 
-export const MetarArray = t.array(Metar);
-export type MetarArray = t.TypeOf<typeof MetarArray>;
+export const ObservationArray = t.readonlyArray(Observation);
+export type ObservationArray = t.TypeOf<typeof ObservationArray>;

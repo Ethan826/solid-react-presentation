@@ -13,13 +13,13 @@ const STATIONS = [
   "KDFW",
   "KLAX",
   "KSAN",
-];
+] as const;
 
 const App = () => (
   <ThemeProvider theme={defaultTheme}>
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="md" style={{ paddingTop: "20px" }}>
       <CssBaseline />
-      <Weather stations={STATIONS} product="observation" />
+      <Weather stations={STATIONS} />
     </Container>
   </ThemeProvider>
 );

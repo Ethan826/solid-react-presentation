@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from "@mui/material";
 import { ForecastData } from "../../codecs";
-import { getForecastAtTime } from "../../get-forecast-at-time";
 import { Clouds } from "../clouds";
 import { TimeNotCoveredRow } from "./time-not-covered-row";
+import { getForecastAtTime } from "./get-forecast-at-time";
 
 export type ForecastTableRowProps = {
   forecast: ForecastData;

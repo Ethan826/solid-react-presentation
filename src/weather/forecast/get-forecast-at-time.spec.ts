@@ -1,4 +1,4 @@
-import { ForecastData } from "./codecs";
+import { ForecastData } from "../../codecs";
 import { getForecastAtTime } from "./get-forecast-at-time";
 
 const exampleForecast: ForecastData = {

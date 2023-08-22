@@ -1,0 +1,68 @@
+\documentclass[aspectratio=169]{beamer}
+
+\title{SOLID React}
+\author{Ethan Kent}
+\institute{Spoonflower}
+\date{\today}
+\usetheme{Pittsburgh}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+
+  \frametitle{SOLID Principles}
+
+  \begin{description}
+    \item[Single-Responsibility Principle] Functions (etc.) should have exactly
+      one reason to change/be responsible to exactly one actor or stakeholder.
+    \item[Open--Closed Principle] Functions (etc.) should be open for extension
+      but closed for modification.
+    \item[Liskov Substitution Principle] You should be able to replace a type
+      with its subtype.
+    \item[Interface-Segregation Principle] Code should not be required to rely
+      on methods or properties it doesn't use.
+    \item[Dependency-Inversion Principle] Functions (etc.) should depend on
+      abstractions rather than concretions.
+  \end{description}
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Applying SOLID to React}
+
+  \begin{itemize}
+    \item Single-Responsibility Principle
+          \begin{itemize}
+            \item Separate logic from rendering.
+            \item Consider volatility when designing shared code.
+          \end{itemize}
+    \item Open--Closed Principle
+          \begin{itemize}
+            \item Share code by composing rudimentary components; don't use
+                  conditional logic to specialize a kitchen-sink component.
+            \item Invert dependencies.
+          \end{itemize}
+    \item Liskov Substitution Principle
+          \begin{itemize}
+            \item Use TypeScript or strict type checking to ensure
+                  compatibility.
+          \end{itemize}
+    \item Interface-Segregation Principle
+          \begin{itemize}
+            \item Avoid prop-drilling (also relevant to OCP).
+            \item Avoid using optionality to facilitate polymorphism (also
+                  relevant to OCP).
+          \end{itemize}
+    \item Dependency-Inversion Principle
+          \begin{itemize}
+            \item Use services/Onion Architecture to define props to allow
+                  polymorphism (also relevant to OCP).
+          \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+\end{document}

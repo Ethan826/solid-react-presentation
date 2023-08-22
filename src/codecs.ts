@@ -26,19 +26,20 @@ export const Observation = t.readonly(
 
 export type Observation = t.TypeOf<typeof Observation>;
 
+export const ForecastElement = t.intersection([
+  t.type({
+    clouds: t.array(Cloud),
+    timeFrom: DateFromUnixTime,
+    timeTo: DateFromUnixTime,
+  }),
+  Wind,
+]);
+export type ForecastElement = t.TypeOf<typeof ForecastElement>;
+
 export const Forecast = t.readonly(
   t.intersection([
     t.type({
-      fcsts: t.readonlyArray(
-        t.intersection([
-          t.type({
-            clouds: t.array(Cloud),
-            timeFrom: DateFromUnixTime,
-            timeTo: DateFromUnixTime,
-          }),
-          Wind,
-        ])
-      ),
+      fcsts: t.readonlyArray(ForecastElement),
     }),
     StationData,
   ])

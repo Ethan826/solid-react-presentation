@@ -1,4 +1,3 @@
-import * as O from "fp-ts/Option";
 import { Forecast } from "./codecs";
 import { getForecastAtTime } from "./get-forecast-at-time";
 
@@ -38,29 +37,27 @@ const exampleForecast: Forecast = {
 };
 
 describe("getForecastAtTime", () => {
-  const subject = getForecastAtTime(exampleForecast);
-
   it("matches the first group", () => {
-    expect(subject(new Date("2023-08-22T10:23:21-04:00"))).toMatchObject(
-      O.of(exampleForecast.fcsts[0])
-    );
+    expect(
+      getForecastAtTime(exampleForecast, new Date("2023-08-22T10:23:21-04:00"))
+    ).toMatchObject(exampleForecast.fcsts[0]);
   });
 
   it("matches a later group", () => {
-    expect(subject(new Date("2023-08-23T00:15:21-04:00"))).toMatchObject(
-      O.of(exampleForecast.fcsts[2])
-    );
+    expect(
+      getForecastAtTime(exampleForecast, new Date("2023-08-23T00:15:21-04:00"))
+    ).toMatchObject(exampleForecast.fcsts[2]);
   });
 
   it("returns none for a group after the window", () => {
-    expect(subject(new Date("2023-08-24T00:15:21-04:00"))).toMatchObject(
-      O.none
-    );
+    expect(
+      getForecastAtTime(exampleForecast, new Date("2023-08-24T00:15:21-04:00"))
+    ).toBeNull();
   });
 
   it("returns none for a group before the window", () => {
-    expect(subject(new Date("2023-07-24T00:15:21-04:00"))).toMatchObject(
-      O.none
-    );
+    expect(
+      getForecastAtTime(exampleForecast, new Date("2023-07-24T00:15:21-04:00"))
+    ).toBeNull();
   });
 });

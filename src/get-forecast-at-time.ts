@@ -1,9 +1,9 @@
-import * as RA from "fp-ts/ReadonlyArray";
-import { pipe } from "fp-ts/function";
-import { Forecast } from "./codecs";
+import { Forecast, ForecastElement } from "./codecs";
 
-export const getForecastAtTime = (forecast: Forecast) => (time: Date) =>
-  pipe(
-    forecast.fcsts,
-    RA.findFirst(({ timeFrom, timeTo }) => timeFrom <= time && timeTo > time)
-  );
+export const getForecastAtTime = (
+  forecast: Forecast,
+  time: Date
+): ForecastElement | null =>
+  forecast.fcsts.find(
+    ({ timeFrom, timeTo }) => timeFrom <= time && timeTo > time
+  ) ?? null;

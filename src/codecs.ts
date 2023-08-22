@@ -18,6 +18,7 @@ export const Observation = t.readonly(
   t.intersection([
     t.type({
       clouds: t.array(Cloud),
+      temp: t.number,
     }),
     Wind,
     StationData,

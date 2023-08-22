@@ -1,7 +1,7 @@
-import { Forecast } from "./codecs";
+import { ForecastData } from "./codecs";
 import { getForecastAtTime } from "./get-forecast-at-time";
 
-const exampleForecast: Forecast = {
+const exampleForecast: ForecastData = {
   icaoId: "KMCO",
   name: "Orlando Intl, FL, US",
   fcsts: [

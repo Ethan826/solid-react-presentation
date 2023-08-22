@@ -1,7 +1,7 @@
-import { Forecast, ForecastElement } from "./codecs";
+import { ForecastData, ForecastElement } from "./codecs";
 
 export const getForecastAtTime = (
-  forecast: Forecast,
+  forecast: ForecastData,
   time: Date
 ): ForecastElement | null =>
   forecast.fcsts.find(

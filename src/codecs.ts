@@ -25,7 +25,7 @@ export const Observation = t.readonly(
   ])
 );
 
-export type Observation = t.TypeOf<typeof Observation>;
+export type ObservationData = t.TypeOf<typeof Observation>;
 
 export const ForecastElement = t.intersection([
   t.type({
@@ -45,7 +45,7 @@ export const Forecast = t.readonly(
     StationData,
   ])
 );
-export type Forecast = t.TypeOf<typeof Forecast>;
+export type ForecastData = t.TypeOf<typeof Forecast>;
 
 export const ForecastArray = t.readonlyArray(Forecast);
 export type ForecastArray = t.TypeOf<typeof ForecastArray>;

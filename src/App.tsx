@@ -1,8 +1,9 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, Container } from "@mui/material";
-import { Weather } from "./Weather";
-
-const defaultTheme = createTheme();
+import { Weather } from "./weather";
+import {
+  fetchForecastFetcher,
+  fetchObservationFetcher,
+} from "./weather/fetcher-provider";
 
 const STATIONS = [
   "KRDU",
@@ -16,12 +17,14 @@ const STATIONS = [
 ] as const;
 
 const App = () => (
-  <ThemeProvider theme={defaultTheme}>
-    <Container component="main" maxWidth="md" style={{ paddingTop: "20px" }}>
-      <CssBaseline />
-      <Weather stations={STATIONS} />
-    </Container>
-  </ThemeProvider>
+  <Container component="main" maxWidth="md" style={{ paddingTop: "20px" }}>
+    <CssBaseline />
+    <Weather
+      stations={STATIONS}
+      forecastFetcher={fetchForecastFetcher}
+      observationFetcher={fetchObservationFetcher}
+    />
+  </Container>
 );
 
 export default App;

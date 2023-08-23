@@ -9,6 +9,8 @@ const urlForProduct = (stations: ReadonlyArray<string>) => (product: Product) =>
     ? `/data/taf.php?ids=${stations.join(",")}&format=json`
     : `/data/metar.php?ids=${stations.join(",")}&format=json`;
 
+// TODO: Open–Closed violation w/r/t product
+// (Hook factory?)
 export const useWeather = <T extends ObservationArray | ForecastArray>(
   fetcher: Fetcher<T>,
   stations: ReadonlyArray<string>,

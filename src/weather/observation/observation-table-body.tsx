@@ -10,10 +10,13 @@ export type ObservationTableBodyProps = {
 export const ObservationTableBody = ({
   weather,
   temperatureUnit,
-}: ObservationTableBodyProps) =>
-  weather.map((observation) => (
-    <ObservationTableRow
-      observation={observation}
-      temperatureUnit={temperatureUnit}
-    />
-  ));
+}: ObservationTableBodyProps) => (
+  <>
+    {weather.map((observation) => (
+      <ObservationTableRow
+        observation={observation}
+        temperatureUnit={temperatureUnit}
+      />
+    ))}
+  </>
+);

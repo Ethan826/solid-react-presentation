@@ -1,6 +1,8 @@
 import * as E from "fp-ts/Either";
+import * as T from "fp-ts/Task";
 import { useEffect, useState } from "react";
 import { Fetcher } from "../services/fetcher";
+import { pipe } from "fp-ts/function";
 
 export type WeatherHookFactoryParams<T> = {
   urlMaker: (stations: ReadonlyArray<string>) => string;
@@ -15,7 +17,12 @@ export const weatherHookFactory =
     );
 
     useEffect(() => {
-      fetcher(urlMaker(stations)).then(setWeather);
+      pipe(
+        stations,
+        urlMaker,
+        fetcher,
+        T.tapIO((newState) => () => setWeather(newState))
+      )();
     });
 
     return weather;

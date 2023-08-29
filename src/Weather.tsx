@@ -1,7 +1,6 @@
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import * as E from "fp-ts/Either";
 import { useEffect, useState } from "react";
 import {
   Typography,
@@ -14,13 +13,8 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import {
-  Forecast,
-  ForecastArray,
-  Observation,
-  ObservationArray,
-} from "./codecs";
-import { Error } from "./Error";
+import { ForecastArray, ObservationArray, isForecast } from "./codecs";
+import { Error } from "./error";
 import { getForecastAtTime } from "./get-forecast-at-time";
 
 export type WeatherProps = {
@@ -41,21 +35,21 @@ export const Weather = ({ stations }: WeatherProps): JSX.Element => {
       : `/data/metar.php?ids=${stations.join(",")}&format=json`;
 
   const [weather, setWeather] = useState<
-    E.Either<unknown, ForecastArray | ObservationArray>
-  >(E.right([]));
+    Zod.SafeParseReturnType<unknown, ForecastArray | ObservationArray>
+  >({ success: true, data: [] });
 
   useEffect(() => {
     fetch(url, { mode: "cors" })
       .then((data) => data.json())
       .then((data) =>
         product === "forecast"
-          ? ForecastArray.decode(data)
-          : ObservationArray.decode(data)
+          ? ForecastArray.safeParse(data)
+          : ObservationArray.safeParse(data)
       )
       .then(setWeather);
   }, [product]);
 
-  return E.isLeft(weather) ? (
+  return !weather.success ? (
     <Error />
   ) : (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -120,10 +114,10 @@ export const Weather = ({ stations }: WeatherProps): JSX.Element => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {weather.right.map((station: Forecast | Observation) => (
+              {weather.data.map((station) => (
                 <TableRow key={station.icaoId}>
                   <TableCell>{station.name}</TableCell>
-                  {Forecast.is(station) ? (
+                  {isForecast(station) ? (
                     <>
                       {forecastTime == null ? (
                         <TableCell colSpan={3} align="center">

@@ -2,6 +2,7 @@ import { Forecast } from "./codecs";
 import { getForecastAtTime } from "./get-forecast-at-time";
 
 const exampleForecast: Forecast = {
+  tag: "Forecast",
   icaoId: "KMCO",
   name: "Orlando Intl, FL, US",
   fcsts: [

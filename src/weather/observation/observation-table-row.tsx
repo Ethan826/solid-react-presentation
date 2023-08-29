@@ -1,11 +1,11 @@
 import { TableCell, TableRow } from "@mui/material";
 import { TemperatureUnit } from "../types";
-import { ObservationData } from "../../codecs";
+import { Observation } from "../../codecs";
 import { Clouds } from "../clouds";
 import { CelsiusTemperature } from "./celsius-temperature";
 
 export type ObservationTableRowProps = {
-  observation: ObservationData;
+  observation: Observation;
   temperatureUnit: TemperatureUnit;
 };
 

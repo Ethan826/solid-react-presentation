@@ -10,7 +10,10 @@ export type CelsiusTemperatureProps = {
 export const CelsiusTemperature = ({
   temperatureUnit,
   temperature,
-}: CelsiusTemperatureProps) =>
-  temperatureUnit === "C"
-    ? `${temperature}º C`
-    : `${celsiusToFahrenheit(temperature).toFixed(1)}º F`;
+}: CelsiusTemperatureProps) => (
+  <>
+    {temperatureUnit === "C"
+      ? `${temperature}º C`
+      : `${celsiusToFahrenheit(temperature).toFixed(1)}º F`}
+  </>
+);

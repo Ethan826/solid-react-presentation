@@ -1,9 +1,9 @@
 import { TableBody } from "@mui/material";
-import { ForecastData } from "../../codecs";
+import { Forecast } from "../../codecs";
 import { ForecastTableRow } from "./forecast-table-row";
 
 export type ForecastTableBodyProps = {
-  readonly weather: ReadonlyArray<ForecastData>;
+  readonly weather: ReadonlyArray<Forecast>;
   readonly forecastTime: Date | null;
 };
 

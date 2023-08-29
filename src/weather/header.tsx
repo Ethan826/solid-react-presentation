@@ -1,5 +1,5 @@
 import { Typography, Box } from "@mui/material";
-import { Product } from ".";
+import { Product } from "./types";
 
 export type HeaderProps = { product: Product };
 

@@ -1,9 +1,8 @@
 import { ForecastArray } from "./codecs";
-import * as E from "fp-ts/Either";
 
 describe("forecast", () => {
   it("decodes real data", () => {
-    expect(E.isRight(ForecastArray.decode(forecastData))).toBe(true);
+    expect(ForecastArray.safeParse(forecastData).success).toBe(true);
   });
 });
 

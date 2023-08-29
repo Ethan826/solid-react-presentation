@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@mui/material";
-import { ForecastData } from "../../codecs";
+import { Forecast } from "../../codecs";
 
-export type TimeNotCoveredRowProps = { forecast: ForecastData };
+export type TimeNotCoveredRowProps = { forecast: Forecast };
 
 export const TimeNotCoveredRow = ({ forecast }: TimeNotCoveredRowProps) => (
   <TableRow key={forecast.icaoId}>

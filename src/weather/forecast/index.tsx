@@ -1,16 +1,13 @@
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import * as E from "fp-ts/Either";
 import { useState } from "react";
 import { Table, Grid } from "@mui/material";
-import { Error } from "../../error";
 import { Header } from "../header";
 import { weatherHookFactory } from "../weather-hook-factory";
 import { ForecastArray } from "../../codecs";
 import { Fetcher } from "../../services/fetcher";
 import { ForecastTableBody } from "./forecast-table-body";
-import { pipe } from "fp-ts/function";
 import { ForecastTableHeader } from "./forecast-table-header";
 
 export type ForecastProps = {
@@ -30,32 +27,20 @@ export const Forecast = (props: ForecastProps) => {
 
   const weather = useWeather(props);
 
-  return pipe(
-    weather,
-    E.fold(
-      () => <Error />,
-      (weather) => (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <DateTimePicker
-                label="Forecast Time"
-                onChange={setForecastTime}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Header product="forecast" />
-              <Table>
-                <ForecastTableHeader />
-                <ForecastTableBody
-                  forecastTime={forecastTime}
-                  weather={weather}
-                />
-              </Table>
-            </Grid>
-          </Grid>
-        </LocalizationProvider>
-      )
-    )
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <DateTimePicker label="Forecast Time" onChange={setForecastTime} />
+        </Grid>
+        <Grid item xs={12}>
+          <Header product="forecast" />
+          <Table>
+            <ForecastTableHeader />
+            <ForecastTableBody forecastTime={forecastTime} weather={weather} />
+          </Table>
+        </Grid>
+      </Grid>
+    </LocalizationProvider>
   );
 };

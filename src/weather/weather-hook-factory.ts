@@ -1,4 +1,3 @@
-import * as E from "fp-ts/Either";
 import { useEffect, useState } from "react";
 import { Fetcher } from "../services/fetcher";
 
@@ -8,11 +7,12 @@ export type WeatherHookFactoryParams<T> = {
 };
 
 export const weatherHookFactory =
-  <T,>({ urlMaker, fetcher }: WeatherHookFactoryParams<T>) =>
+  <T extends ReadonlyArray<unknown>>({
+    urlMaker,
+    fetcher,
+  }: WeatherHookFactoryParams<T>) =>
   (stations: ReadonlyArray<string>) => {
-    const [weather, setWeather] = useState<E.Either<unknown, T>>(
-      E.right([] as any)
-    );
+    const [weather, setWeather] = useState<T>([] as unknown as T);
 
     useEffect(() => {
       fetcher(urlMaker(stations)).then(setWeather);

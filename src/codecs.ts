@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const Cloud = z.object({
   cover: z.union([
+    z.literal("CLR"),
     z.literal("SKC"),
     z.literal("SCT"),
     z.literal("FEW"),

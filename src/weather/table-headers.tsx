@@ -1,18 +1,23 @@
 import { TableRow, TableHead, TableCell } from "@mui/material";
 
 export type TableHeadersProps = {
-  columnHeaders: ReadonlyArray<string>;
+  children: React.ReactNode;
 };
 
-export const TableHeaders = ({ columnHeaders }: TableHeadersProps) => (
+export const TableHeaders = ({ children }: TableHeadersProps) => (
   <TableHead>
-    <TableRow>
-      <TableCell key="station">Station</TableCell>
-      {columnHeaders.map((columnHeader) => (
-        <TableCell align="right" key={columnHeader}>
-          {columnHeader}
-        </TableCell>
-      ))}
-    </TableRow>
+    <TableRow>{children}</TableRow>
   </TableHead>
 );
+
+export type ColumnHeaderCellProps = {
+  columnHeader: string;
+};
+
+export const TableHeaderCell = ({ columnHeader }: { columnHeader: string }) => (
+  <TableCell align="right" key={columnHeader}>
+    {columnHeader}
+  </TableCell>
+);
+
+export const StationHeader = () => <TableCell key="station">Station</TableCell>;

@@ -2,7 +2,14 @@ import { DateFromUnixTime } from "io-ts-types";
 import * as t from "io-ts";
 
 export const Cloud = t.type({
-  cover: t.keyof({ SKC: null, SCT: null, FEW: null, BKN: null, OVC: null }),
+  cover: t.keyof({
+    CLR: null,
+    SKC: null,
+    SCT: null,
+    FEW: null,
+    BKN: null,
+    OVC: null,
+  }),
   base: t.union([t.number, t.null]),
 });
 export type Cloud = t.TypeOf<typeof Cloud>;

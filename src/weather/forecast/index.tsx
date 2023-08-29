@@ -6,52 +6,56 @@ import { useState } from "react";
 import { Table, Grid } from "@mui/material";
 import { Error } from "../../error";
 import { Header } from "../header";
-import { useWeather } from "../use-weather";
+import { weatherHookFactory } from "../weather-hook-factory";
 import { ForecastArray } from "../../codecs";
 import { Fetcher } from "../../services/fetcher";
-import { TableHeaders } from "../table-headers";
 import { ForecastTableBody } from "./forecast-table-body";
-import { flow, pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/function";
+import { ForecastTableHeader } from "./forecast-table-header";
 
 export type ForecastProps = {
   readonly stations: ReadonlyArray<string>;
   readonly fetcher: Fetcher<ForecastArray>;
 };
 
-const useForecast = ({ stations, fetcher }: ForecastProps) => {
+const useWeather = ({ stations, fetcher }: ForecastProps) =>
+  weatherHookFactory({
+    urlMaker: (stations: ReadonlyArray<string>) =>
+      `/data/taf.php?ids=${stations.join(",")}&format=json`,
+    fetcher,
+  })(stations);
+
+export const Forecast = (props: ForecastProps) => {
   const [forecastTime, setForecastTime] = useState<Date | null>(new Date());
-  const weather = useWeather(fetcher, stations, "forecast");
+
+  const weather = useWeather(props);
 
   return pipe(
     weather,
-    E.map((weather) => ({ weather, forecastTime, setForecastTime }))
+    E.fold(
+      () => <Error />,
+      (weather) => (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <DateTimePicker
+                label="Forecast Time"
+                onChange={setForecastTime}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Header product="forecast" />
+              <Table>
+                <ForecastTableHeader />
+                <ForecastTableBody
+                  forecastTime={forecastTime}
+                  weather={weather}
+                />
+              </Table>
+            </Grid>
+          </Grid>
+        </LocalizationProvider>
+      )
+    )
   );
 };
-
-export const Forecast = flow(
-  useForecast,
-  E.fold(
-    () => <Error />,
-    ({ weather, forecastTime, setForecastTime }) => (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <DateTimePicker label="Forecast Time" onChange={setForecastTime} />
-          </Grid>
-          <Grid item xs={12}>
-            <Header product="forecast" />
-            <Table>
-              <TableHeaders
-                columnHeaders={["Wind Direction", "Wind Speed", "Clouds"]}
-              />
-              <ForecastTableBody
-                forecastTime={forecastTime}
-                weather={weather}
-              />
-            </Table>
-          </Grid>
-        </Grid>
-      </LocalizationProvider>
-    )
-  )
-);

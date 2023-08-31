@@ -16,7 +16,7 @@ export const weatherHookFactory =
 
     useEffect(() => {
       fetcher(urlMaker(stations)).then(setWeather);
-    });
+    }, []);
 
     return weather;
   };
